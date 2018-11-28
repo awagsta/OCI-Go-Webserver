@@ -46,6 +46,9 @@ func listVCN(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Println("endpoint hit successfully.")
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+
 	json.NewEncoder(writer).Encode(vcnList)
 }
 
@@ -76,11 +79,12 @@ func listCompute(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Println("endpoint hit successfully.")
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(instanceList)
 }
 
 func createVcn(writer http.ResponseWriter, request *http.Request) {
-
 	var vcnDetails core.CreateVcnDetails
 
 	err := json.NewDecoder(request.Body).Decode(&vcnDetails)
@@ -109,5 +113,8 @@ func createVcn(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	v := helpers.Vcn{CidrBlock: r.CidrBlock, DisplayName: r.DisplayName}
+	fmt.Println("VCN Created Successfully")
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusCreated)
 	json.NewEncoder(writer).Encode(v)
 }
