@@ -1,2 +1,1 @@
-# OCI-Go-Webserver
-OCI Go Webserver
+This is a Go webserver that creates and lists OCI resources and returns the response as a serialized JSON object. Future scope includes using an external router for routing, and implementing create and list functionality for all major resources.
