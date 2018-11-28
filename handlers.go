@@ -6,20 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/awagsta/webserver/helperStructs"
 	"github.com/oracle/oci-go-sdk/common"
 	"github.com/oracle/oci-go-sdk/core"
 )
-
-type vcn struct {
-	CidrBlock   *string `json:"cidrBlock"`
-	DisplayName *string `json:"displayName"`
-}
-
-type instance struct {
-	DisplayName        *string `json:"displayName"`
-	Shape              *string `json:"shape"`
-	AvailabilityDomain *string `json:"availabilityDomain"`
-}
 
 const compartmentID = "ocid1.compartment.oc1..aaaaaaaa6p62fu3x53o3lwv5p7apjotp7eyfrienrd3xbdy5py7s7pfjgssa"
 
@@ -47,11 +37,11 @@ func listVCN(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var vcnList []vcn
+	var vcnList []helpers.Vcn
 	for _, value := range r.Items {
 		cidrBlock := value.CidrBlock
 		displayName := value.DisplayName
-		v := vcn{CidrBlock: cidrBlock, DisplayName: displayName}
+		v := helpers.Vcn{CidrBlock: cidrBlock, DisplayName: displayName}
 		vcnList = append(vcnList, v)
 	}
 
@@ -76,12 +66,12 @@ func listCompute(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var instanceList []instance
+	var instanceList []helpers.Instance
 	for _, value := range r.Items {
 		displayName := value.DisplayName
 		shape := value.Shape
 		availabilityDomain := value.AvailabilityDomain
-		v := instance{DisplayName: displayName, Shape: shape, AvailabilityDomain: availabilityDomain}
+		v := helpers.Instance{DisplayName: displayName, Shape: shape, AvailabilityDomain: availabilityDomain}
 		instanceList = append(instanceList, v)
 	}
 
@@ -118,6 +108,6 @@ func createVcn(writer http.ResponseWriter, request *http.Request) {
 		http.Error(writer, err.Error(), http.StatusForbidden)
 		return
 	}
-	v := vcn{CidrBlock: r.CidrBlock, DisplayName: r.DisplayName}
+	v := helpers.Vcn{CidrBlock: r.CidrBlock, DisplayName: r.DisplayName}
 	json.NewEncoder(writer).Encode(v)
 }
