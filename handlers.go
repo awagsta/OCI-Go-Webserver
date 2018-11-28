@@ -11,7 +11,7 @@ import (
 	"github.com/oracle/oci-go-sdk/core"
 )
 
-const compartmentID = "ocid1.compartment.oc1..aaaaaaaa6p62fu3x53o3lwv5p7apjotp7eyfrienrd3xbdy5py7s7pfjgssa"
+const compartmentID = "..."
 
 var config = common.DefaultConfigProvider()
 
